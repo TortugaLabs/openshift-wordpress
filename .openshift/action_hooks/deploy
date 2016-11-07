@@ -97,6 +97,10 @@ do
     echo $addon: applying $patch
     patch -N -p1 -t -d "${OPENSHIFT_DATA_DIR}$type/$addon" < $patch
   done
+  find "${OPENSHIFT_DATA_DIR}$type/$addon" -type f '(' \
+    -name '*.rej' \
+    -o -name '*#' \
+  ')' -print0 | xargs -0 rm -vf
 done
 
 # Add multisite upload dir
