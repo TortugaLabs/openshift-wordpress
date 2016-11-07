@@ -1,0 +1,12 @@
+diff -ur shortcode-reference/lib/ShortcodeReferenceService.php shortcode-reference-hacked/lib/ShortcodeReferenceService.php
+--- shortcode-reference/lib/ShortcodeReferenceService.php	2015-04-05 23:58:08.000000000 +0200
++++ shortcode-reference-hacked/lib/ShortcodeReferenceService.php	2016-11-06 08:35:02.003175191 +0100
+@@ -55,6 +55,7 @@
+ 				$$name = new ShortcodeReference($tag);
+ 				self::$references[$tag] = $$name;
+ 			}
++			ksort(self::$references);
+ 		}
+ 	}
+ }
+\ No newline at end of file

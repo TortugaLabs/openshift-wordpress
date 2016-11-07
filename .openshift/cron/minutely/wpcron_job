@@ -1,0 +1,16 @@
+#!/bin/bash
+
+/usr/bin/mysql \
+  -u "$OPENSHIFT_MYSQL_DB_USERNAME" \
+  --password="$OPENSHIFT_MYSQL_DB_PASSWORD" \
+  -h "$OPENSHIFT_MYSQL_DB_HOST" \
+  -P "$OPENSHIFT_MYSQL_DB_PORT" \
+  -e "SELECT domain,path FROM wp_blogs WHERE archived=0 AND deleted=0;" \
+  "$OPENSHIFT_APP_NAME" | (
+  read hdr || exit 1
+  while read domain path
+  do
+    path=$(sed 's!/$!!' <<<"$path")
+    wget --delete-after -q "https://$domain$path/wp-cron.php"'?t='$(date +%s)
+  done)
+

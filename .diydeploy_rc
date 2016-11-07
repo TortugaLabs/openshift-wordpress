@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Configure DEPLOY depending on the branch
+#
+case "$TRAVIS_BRANCH" in
+  iliu|iliu-*)
+    OPENSHIFT_APP="wp2"
+    OPENSHIFT_USER="$OPENSHIFT_ILIU_USER"
+    OPENSHIFT_SECRET="$OPENSHIFT_ILIU_SECRET"
+    ;;
+  wp0ink|wp0ink-*)
+    OPENSHIFT_APP="wp3"
+    ;;
+  dev1|dev1-*)
+    OPENSHIFT_APP="dev1"
+    ;;
+  dev3|dev3-*)
+    OPENSHIFT_APP="dev3"
+    OPENSHIFT_USER="$OPENSHIFT_ILIU_USER"
+    OPENSHIFT_SECRET="$OPENSHIFT_ILIU_SECRET"
+    ;;
+  *)
+    # Disable deployments unless explicitly defined...
+    echo "No APP configured"
+    exit 0
+    ;;
+esac

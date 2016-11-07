@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Fetch plugins/themes
+for prefix in "${OPENSHIFT_APP_NAME}_" ""
+do
+  manifest=${OPENSHIFT_REPO_DIR}.openshift/${prefix}wp-manifest.txt
+  [ ! -f "$manifest" ] && continue
+  MANIFEST=$manifest php ${OPENSHIFT_REPO_DIR}.openshift/wpmgr.php
+  break
+done
+
 # To force a specific version of WordPress, set this variable:
 #
 # install_version="4.1"
@@ -47,3 +56,4 @@ rm -rf wordpress-${install_version}.tar.gz
 echo $install_version > ${OPENSHIFT_BUILD_DEPENDENCIES_DIR}.current_version
 
 popd >/dev/null
+

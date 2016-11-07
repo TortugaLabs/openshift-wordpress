@@ -54,6 +54,51 @@ cp -rf $OPENSHIFT_REPO_DIR/.openshift/themes/* ${OPENSHIFT_DATA_DIR}themes/ 2>/d
 echo "Copying WordPress languages from .openshift/languages"
 cp -rf $OPENSHIFT_REPO_DIR/.openshift/languages/* ${OPENSHIFT_DATA_DIR}languages/ 2>/dev/null
 
+#
+# OK we do this our own way...
+#
+for class in theme plugin language
+do
+  classdir=${OPENSHIFT_DATA_DIR}ext-${class}s/
+  wpdir=${OPENSHIFT_DATA_DIR}${class}s/
+  for ext in ${classdir}*.zip
+  do
+    name=$(basename $ext .zip)
+    if [ $class = language ] ; then
+      [ -f ${wpdir}${name}.po ] && continue
+    else
+      [ -d ${wpdir}${name} ] && continue
+    fi
+    echo "Unpacking $class $name"
+    ( cd ${wpdir} && unzip -q ${ext} )
+  done
+done
+
+# Apply any patches...
+for patch in ${OPENSHIFT_REPO_DIR}.openshift/patches/*
+do
+  [ -e $patch ] || continue
+  addon=$(basename "$patch" .patch)
+  if [ -d ${OPENSHIFT_DATA_DIR}themes/$addon ] ; then
+    type=themes
+  elif [ -d ${OPENSHIFT_DATA_DIR}plugins/$addon ] ; then
+    type=plugins
+  else
+    continue
+  fi
+  if [ -d $patch ] ; then
+    patches="$(echo $patch/*)"
+  else
+    patches=$patch
+  fi
+  for patch in $patches
+  do
+    [ -f $patch ] || continue
+    echo $addon: applying $patch
+    patch -N -p1 -t -d "${OPENSHIFT_DATA_DIR}$type/$addon" < $patch
+  done
+done
+
 # Add multisite upload dir
 #
 if [ ! -d $OPENSHIFT_DATA_DIR/blogs.dir ]; then
@@ -66,15 +111,25 @@ ln -sf ${OPENSHIFT_DATA_DIR}themes    ${OPENSHIFT_REPO_DIR}php/wp-content/
 ln -sf ${OPENSHIFT_DATA_DIR}languages    ${OPENSHIFT_REPO_DIR}php/wp-content/
 ln -sf ${OPENSHIFT_DATA_DIR}uploads   ${OPENSHIFT_REPO_DIR}php/wp-content/
 
-# Copy the OpenShift wp-config.php file
+# Copy the OpenShift wp-config.php and .htaccess files
+for config in wp-config.php .htaccess
+do
+  for prefix in "${OPENSHIFT_APP_NAME}_" ""
+  do
+    [ ! -f ${OPENSHIFT_REPO_DIR}.openshift/config/${prefix}${config} ] && continue
+    echo "Using ${prefix}${config}"
+    cp -f ${OPENSHIFT_REPO_DIR}.openshift/config/${prefix}${config} ${dest_dir}/${config}
+    break
+  done
+done
 
-cp -f ${OPENSHIFT_REPO_DIR}.openshift/config/wp-config.php ${dest_dir}/wp-config.php
-
-
-# Use repository htaccess if exists 
-if [  -f ${OPENSHIFT_REPO_DIR}.openshift/config/.htaccess ]; then
-  cp -f ${OPENSHIFT_REPO_DIR}.openshift/config/.htaccess ${dest_dir}/.htaccess
-fi
+# Decrypt additional files...
+for src in ${OPENSHIFT_REPO_DIR}.openshift/config/${OPENSHIFT_APP_NAME}_*.enc
+do
+  [ ! -f "$src" ] && continue
+  dst="${dest_dir}/$(basename "$src" .enc | sed 's/^'"${OPENSHIFT_APP_NAME}_"'//' )"
+  echo "DECODE <$src> to <$dst>"
+done
 
 set -e
 

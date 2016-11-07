@@ -1,0 +1,63 @@
+#
+# List of wordpress plugins and themes
+#
+# This will install plugins and themes.  It is meant to be used with
+# OpenShift autoscale functionality when deploying new Wordpress
+# gears, they would start will all the plugin functionality available.
+#
+# Normal updating/removing of plugins should be done from the Wordpress
+# dashboard.  Furthermore, testing plugins should be done from the
+# dashboard too.
+#
+# Register plugins here once they are considered production ready.
+#
+
+plugin wptools github:iliu-net/wptools	# A collection of Wordpress tools
+plugin S3Copy github:iliu-net/S3Copy	# Another S3 script
+plugin sirv				# hosted CDN & image manager
+
+plugin markdown-shortcode 		# Enable markdown through short codes...
+plugin shortcode-reference		# shortcode reference guide on the editor
+
+plugin updraftplus 			# Automated Backups
+plugin wp-crontrol			# Monitor cron jobs
+
+plugin super-socializer 		# Single-sign-on
+plugin cloudflare			# Enable cloudflare integration
+plugin google-language-translator	# machine language translation
+
+plugin collapsing-category-list		# display/collapse categories
+plugin front-page-category		# Select what is shown in the front page
+plugin wp-sitemap-page			# A human readable sitemap page
+plugin categories-in-hierarchical-order # Small plugin
+
+plugin postie				# Post by e-mail
+plugin auto-add-tags
+plugin wp-power-stats 			# Simple statistics
+# Does it work for multisite?		# Cloudflare stats lacks details
+
+# plugin admin-menu-editor		# Add custom entries to the admin menu
+# plugin wordpress-importer		# Used to restore backups
+# plugin username-changer		# Change registered user's name
+
+language nl_NL
+language es_ES
+
+theme twentyten
+theme twentyeleven
+theme twentytwelve
+theme twentythirteen
+theme white-xmas
+theme bunny
+theme tiny-forge
+theme haunted
+theme personaltrainer
+theme raindrops
+theme sporty
+theme cherry-blossom
+theme just-pink
+theme casually
+theme orbit
+theme oriental
+
+

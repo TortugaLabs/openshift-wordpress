@@ -1,0 +1,3 @@
+[submodule ".openshift/ci-utils"]
+	path = .openshift/ci-utils
+	url = https://github.com/iliu-net/openshift-ci-utils.git
