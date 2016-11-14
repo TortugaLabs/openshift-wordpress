@@ -143,7 +143,7 @@ foreach ($cfg as $id=>$c) {
     }
   } elseif (preg_match('/^github:/',$c['url'])) {
     echo "Looking up ".$c['url']."...";
-    $url = get_github_url($class,$name,preg_replace('/^github:/','',$c['url']));
+    $url = get_github_url($c['class'],$c['name'],preg_replace('/^github:/','',$c['url']));
     if ($url == FALSE) {
       echo "ERROR\n";
       continue;

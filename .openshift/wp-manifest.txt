@@ -11,16 +11,21 @@
 #
 # Register plugins here once they are considered production ready.
 #
-
+plugin simple-members-only github:iliu-net/simple-members-only
+					# Simple member's only site
+plugin auto-content github:iliu-net/auto-content
+					# Basic post from template
 plugin wptools github:iliu-net/wptools	# A collection of Wordpress tools
 plugin S3Copy github:iliu-net/S3Copy	# Another S3 script
+plugin Backup github:iliu-net/Backup	# My own backup script
+
 plugin sirv				# hosted CDN & image manager
 
 plugin markdown-shortcode 		# Enable markdown through short codes...
 plugin shortcode-reference		# shortcode reference guide on the editor
 
-plugin updraftplus 			# Automated Backups
 plugin wp-crontrol			# Monitor cron jobs
+plugin multisite-enhancements		# Multisite stuff..
 
 plugin super-socializer 		# Single-sign-on
 plugin cloudflare			# Enable cloudflare integration

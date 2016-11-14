@@ -11,9 +11,6 @@ case "$TRAVIS_BRANCH" in
   wp0ink|wp0ink-*)
     OPENSHIFT_APP="wp3"
     ;;
-  dev1|dev1-*)
-    OPENSHIFT_APP="dev1"
-    ;;
   dev3|dev3-*)
     OPENSHIFT_APP="dev3"
     OPENSHIFT_USER="$OPENSHIFT_ILIU_USER"
