@@ -17,7 +17,6 @@ plugin auto-content github:iliu-net/auto-content
 					# Basic post from template
 plugin wptools github:iliu-net/wptools	# A collection of Wordpress tools
 plugin S3Copy github:iliu-net/S3Copy	# Another S3 script
-plugin Backup github:iliu-net/Backup	# My own backup script
 
 plugin sirv				# hosted CDN & image manager
 
